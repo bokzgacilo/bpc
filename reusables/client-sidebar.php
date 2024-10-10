@@ -53,10 +53,27 @@
     <i class="fa-regular fa-bell"></i>
     <span>Notifications</span>
   </a> -->
-  <a href="index.html">
+  <a class="logoutButton">
     <i class="fa-solid fa-power-off"></i>
     <span>Log Out</span>
   </a>
 
   <h6>BPC E-Registrar 2024</h6>
 </div>
+
+<script>
+  $(".logoutButton").on("click", function(){
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        location.href = "index.html"
+      }
+    });
+  })
+</script>
