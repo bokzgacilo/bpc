@@ -1,5 +1,7 @@
 <?php
   include("connection.php");
+  include("emailer.php");
+
   session_start();
    // Retrieve and sanitize input data from the form
   $student_number = mysqli_real_escape_string($conn, $_POST['student_number']);
@@ -74,7 +76,9 @@
   )";
 
   if($conn -> query($sql)){
-    echo json_encode(['status' => 'success', 'message' => 'Request Submitted', 'description' => 'Request submitted, please wait atleast 3-5 business days to complete your request.']);
+    if(sendEmail($client_email, $document_type)){
+      echo json_encode(['status' => 'success', 'message' => 'Request Submitted', 'description' => 'Request submitted, please wait atleast 3-5 business days to complete your request.']);
+    }
   }else {
     echo json_encode(['status' => 'error', 'message' => 'Request Submission Failed', 'description' => 'Were having a problem submitting your request. Please contact the registrar or try again requesting after couple of minutes or hour.']);
   }
