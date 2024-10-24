@@ -38,19 +38,20 @@
     }
   </style>
 
-  <main class="container-fluid d-flex flex-row p-0">
+  <main class="container-fluid d-flex flex-lg-row flex-column p-0">
     <?php include("reusables/client-sidebar.php"); ?>
-    <div class="col-10 p-4">
+    <div class="col-12 col-lg-10 p-4">
       <h2>Profile</h2>
       <hr />
-      <div class="w-50">
+      <div>
         <div class="mt-2 avatar">
-          <img src="<?php echo $row['image_url']; ?>" />
+          <img class="img-fluid" src="<?php echo $row['image_url']; ?>" />
           <div class="avatarform">
-            <input class="form-control" type="file" name="image" />
-            <button class="mt-2 btn btn-primary">Update Avatar</button>
           </div>
         </div>
+        <input class="form-control" type="file" name="image" />
+        <button class="mt-2 btn btn-primary">Update Avatar</button>
+
         <input type="text" class="mt-2 form-control" value="<?php echo $row['stuname']; ?>" readonly />
         <input type="text" class="mt-2  form-control" value="<?php echo $row['stuid']; ?>" readonly />
         <input type="text" class="mt-2  form-control" value="<?php echo $row['stuemail']; ?>" readonly />

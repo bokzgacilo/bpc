@@ -21,6 +21,12 @@
       gap: 1rem;
     }
 
+    @media (max-width: 992px) {
+      section > div {
+        padding: 1rem;
+      }
+    }
+
     td > a {
       font-weight: 500;
     }
@@ -33,9 +39,9 @@
     }
   </style>
 
-  <main class="container-fluid d-flex flex-row p-0">
+  <main class="container-fluid d-flex flex-lg-row flex-column p-0">
     <?php include("reusables/client-sidebar.php"); ?>
-    <section class="col-10">
+    <section class="col-12 col-lg-10">
       <div>
         <div style="display: flex; flex-direction: row; justify-content: space-between; align-items:center;">
           <h1>My Request</h1>
@@ -43,33 +49,35 @@
         </div>
         <hr />
         <p>You can click the transaction ID to view request details.</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Transaction ID</th>
-              <th scope="col">Document Type</th>
-              <th scope="col">Date Requested</th>
-              <th scope="col">Status</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <tr>
-              <td class="align-middle">
-                <a href="">0978222XLLSSA</a>
-              </td>
-              <td class="align-middle">Transcript Of Records</td>
-              <td class="align-middle">October 6, 2024</td>
-              <td class="align-middle">Waiting For Approval</td>
-              <td class="align-middle">
-                <div class="row-action">
-                  <button class="btn btn-sm btn-success">Follow Up</button>
-                  <button class="btn btn-sm btn-danger">Cancel</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Document Type</th>
+                <th scope="col">Date Requested</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              <tr>
+                <td class="align-middle">
+                  <a href="">0978222XLLSSA</a>
+                </td>
+                <td class="align-middle">Transcript Of Records</td>
+                <td class="align-middle">October 6, 2024</td>
+                <td class="align-middle">Waiting For Approval</td>
+                <td class="align-middle">
+                  <div class="row-action">
+                    <button class="btn btn-sm btn-success">Follow Up</button>
+                    <button class="btn btn-sm btn-danger">Cancel</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
