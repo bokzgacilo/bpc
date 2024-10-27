@@ -16,7 +16,7 @@
           <td class='align-middle'>".$row['stupassword']."</td>
           <td class='align-middle'>
             <button class='btn btn-primary btn-sm mr-4'>Edit</button>
-            <button class='btn btn-danger btn-sm'>Delete</button>
+            <button class='btn btn-danger btn-sm' onclick='deleteStudent(".$row['id'].")'>Delete</button>
           </td>
         </tr>
       ";

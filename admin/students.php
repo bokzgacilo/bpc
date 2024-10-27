@@ -46,8 +46,20 @@
           <button class="btn btn-primary">Search</button>
         </div>
       </div>
+     
       <hr class="mb-4" />
-      <table class="table table-bordered text-center">
+      <div class="row">
+        <h4>Upload Student List</h4>
+      </div>
+      <form  class="row mt-2" action="../api/post_batch_excel_upload.php" method="POST" enctype="multipart/form-data">
+        <div class="form-group col-4">
+            <input type="file" name="file" id="file" class="form-control" accept=".xlsx, .xls" required>
+        </div>
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary">Upload and Import</button>
+        </div>
+      </form>
+      <table class="mt-4 table table-bordered text-center">
         <thead>
           <tr>
             <th scope="col">Image</th>
@@ -65,6 +77,33 @@
     </div>
   </main>
   <script>
+    function deleteStudent(stuid){
+      Swal.fire({
+        title: "Do you want to delete the student",
+        icon: "info",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Yes, Delete It",
+        denyButtonText: `Don't save`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: 'post',
+            url: 'api/post_delete_student.php',
+            data: {
+              id : stuid
+            },
+            success: response => {
+              if(response === 'ok'){
+                alert('Student deleted!')
+                location.reload();
+              }
+            }
+          })
+        }
+      });
+    }
+
     $(document).ready(function(){
       $.ajax({
         type: "get",
