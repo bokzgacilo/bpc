@@ -7,13 +7,6 @@
   <?php include("static-loader.php"); ?>
 </head>
 <body>
-  
-  <style>
-    main {
-      min-height: 100vh;
-    }
-  </style>
-
   <main class="container-fluid d-flex flex-row p-0">
     <?php include("../reusables/admin-sidebar.php"); ?>
     

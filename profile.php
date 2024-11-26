@@ -49,14 +49,13 @@
           <div class="avatarform">
           </div>
         </div>
-        <input class="form-control" type="file" name="image" />
-        <button class="mt-2 btn btn-primary">Update Avatar</button>
-
+        <!-- <input class="form-control" type="file" name="image" />
+        <button class="mt-2 btn btn-primary">Update Avatar</button> -->
         <input type="text" class="mt-2 form-control" value="<?php echo $row['stuname']; ?>" readonly />
         <input type="text" class="mt-2  form-control" value="<?php echo $row['stuid']; ?>" readonly />
         <input type="text" class="mt-2  form-control" value="<?php echo $row['stuemail']; ?>" readonly />
         <input type="text" class="mt-2  form-control" value="<?php echo $row['stupassword']; ?>" readonly />
-        <button class="btn btn-success mt-4 ">Confirm Changes</button>
+        <!-- <button class="btn btn-success mt-4 ">Confirm Changes</button> -->
       </div>
      
     </div>

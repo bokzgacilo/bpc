@@ -1,4 +1,6 @@
 <?php
+  session_start();
+
   if(!isset($_GET['request_id'])){
     header("location: request.php");
   }else {
@@ -46,9 +48,9 @@
     <section class="col-10">
       <div>
         <h3>Viewing Request: <?php echo $requestID; ?></h3>
-        <h5>Client: <?php echo $row['client_name']; ?></h5>
-        <h5>Status: <?php echo $row['status']; ?></h5>
-        <h5>Date Requested: <?php echo $row['request_date']; ?></h5>
+        <h6>Client: <?php echo $row['client_name']; ?></h6>
+        <h6>Status: <?php echo $row['status']; ?></h6>
+        <h6>Date Requested: <?php echo $row['request_date']; ?></h6>
         <hr />
         <h3>Student Information</h3>
         <div class="row">

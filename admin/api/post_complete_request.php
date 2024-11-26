@@ -4,8 +4,8 @@
 
   $requestid = $_POST['requestid'];
 
-  if($conn -> query("UPDATE requests SET status='Completed' WHERE id=$requestid")){
-    $select = $conn -> query("SELECT client_email, document_type FROM requests WHERE id=$requestid");
+  if($conn -> query("UPDATE requests SET status='Completed' WHERE request_id='$requestid'")){
+    $select = $conn -> query("SELECT client_email, document_type FROM requests WHERE request_id='$requestid'");
     $row = $select -> fetch_assoc();
 
     if(sendEmailRelease($row['client_email'], $row['document_type'])){

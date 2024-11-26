@@ -47,62 +47,117 @@
       color: #000;
     }
 
+    .fc-day-past {
+      background-color: #a1a1a1 !important;
+      color: white;
+      pointer-events: none;
+    }
+
+    .fc-day-today {
+      background-color: #fdffa4 !important;
+      color: #000;
+    }
+
+    /* Style for displaying remaining slots */
+    .fc-day-number {
+      position: relative;
+    }
+
+    .remaining-slots {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 12px;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
   </style>
   <script>
-
     document.addEventListener('DOMContentLoaded', function() {
       const calendarEl = document.getElementById('calendar')
 
-      var events = [
-        {
-          title: 'Taken',
-          start: '2024-10-25',
-        },
-        {
-          title: 'Taken',
-          start: '2024-10-28'
-        },
-        {
-          title: 'Taken',
-          start: '2024-10-29'
-        }
-      ];
-
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        themeSystem: 'bootstrap',
-        bootstrapFontAwesome: false,
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth'
-        },
-        selectable: true,
-        selectOverlap: false,
-        select: function(info) {
-          // Make sure only one date is selectable (not a range)
-          var startDate = info.startStr;
+        dayCellDidMount: function(info) {
+          var today = new Date();
+          var cellDate = new Date(info.date);
+          var formattedDate = cellDate.toISOString().split('T')[0];
+          var isToday = (cellDate.toDateString() === today.toDateString()); // Check if it's today
 
-          // Create a custom event with an 'X' button to remove the event
-          var event = calendar.addEvent({
-            title: 'X',  // The 'X' to remove the event
-            start: startDate,
-            allDay: true,  // Ensure this is a full-day event
-            classNames: ['removable-event'],  // Add custom class for styling
-            editable: true  // Make event editable (optional)
-          });
 
-          console.log(startDate)
+
+          // Fetch remaining slots for the day from the JSON object
+          var remainingSlots = window.remainingSlots[formattedDate];
+
+          console.log(formattedDate + ": " + remainingSlots)
+          // var eventCountForDate = window.eventCount[formattedDate] || 0;
+
+          // If remaining slots are undefined, set default values for weekdays and weekends
+          if (remainingSlots === undefined) {
+            var dayOfWeek = cellDate.getDate() - 1;
+            
+            remainingSlots = (dayOfWeek >= 1 && dayOfWeek <= 5) ? 5 : 0; // 5 for Mon-Fri, 0 for weekends
+          }
+
+          // console.log(eventCountForDate)
+          // remainingSlots = 5 - eventCountForDate;
+
+          // Display remaining slots inside the calendar day cell
+          var slotLabel = document.createElement('div');
+          slotLabel.classList.add('custom-daygrid');
+          slotLabel.textContent = `${remainingSlots} slots`; // Display slot count with a label
+          info.el.appendChild(slotLabel);
+
+          // Add specific styles for past dates, today, and future dates
+          if (cellDate < today) {
+            info.el.classList.add('fc-day-past'); // Style past dates
+          } else if (isToday) {
+            info.el.classList.add('fc-day-today'); // Style today's date
+          } else {
+            info.el.classList.add('fc-day-future'); // Style future dates
+          }
         },
-        selectAllow: function(selectInfo) {
-          return selectInfo.startStr === selectInfo.endStr;  // Only allow if the start and end dates are the same
-        },
-        events: events,
-        eventClick: function(info){
-          alert("Date Taken")
+        dateClick: function(info) {
+          var today = new Date();
+          var clickedDate = new Date(info.dateStr);
+
+          var eventCountForDate = window.eventCount[info.dateStr] || 0;
+          var remainingCount = window.remainingSlots[info.dateStr] || 0;
+          console.log(eventCountForDate)
+
+          if(eventCountForDate === 5){
+            Swal.fire({
+              icon: 'warning',
+              title: 'No Slots Available',
+              text: 'There are no slots available for this date. Try different date. [No Slot]',
+              confirmButtonText: 'Okay'
+            });
+
+            return;
+          }
+
+          if (clickedDate >= today) {
+            // alert('You clicked: ' + info.dateStr);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops!',
+              text: 'This date is not available for booking. [Past Date]',
+              confirmButtonText: 'Okay'
+            });
+          }
         }
       })
-      calendar.render()
+
+      fetch('api/get_all_requested_counts.php')
+        .then(response => response.json())
+        .then(data => {
+          window.eventCount = data.eventCount; // Assign remaining slots to a global variable
+          window.remainingSlots = data.remainingSlots; // Assign remaining slots to a global variable
+          calendar.render(); // Render the calendar after loading the data
+        });
     })
 
   </script>

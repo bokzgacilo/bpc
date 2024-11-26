@@ -1,3 +1,12 @@
+<?php
+  session_start();
+  include("api/connection.php");
+
+  if($_SESSION['staffrole'] != "Registrar"){
+    header("location: dashboard.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,72 +16,47 @@
   <?php include("static-loader.php"); ?>
 </head>
 <body>
-  
-  <style>
-    main {
-      min-height: 100vh;
-    }
-
-    .panel-header {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .search-form {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    td > img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50px;
-    }
-
-  </style>
 
   <main class="container-fluid d-flex flex-row p-0">
     <?php include("../reusables/admin-sidebar.php"); ?>
     
-    <div class="col-10 p-4">
-      <div class="panel-header">
-        <h2>Archived Requests</h2>
-        <div class="search-form">
-          <input type="search" class="form-control" placeholder="Start searching" />
-          <button class="btn btn-primary">Search</button>
-        </div>
-      </div>
-      <hr class="mb-4" />
-      <table class="table table-bordered text-center">
+    <div class="col-12 col-lg-10 p-4">
+      <h4 class="mb-4 fw-bold">ARCHIVES</h4>
+      <table id="example" class="table table-responsive">
         <thead>
           <tr>
-            <th scope="col">Request ID</th>
-            <th scope="col">Client</th>
-            <th scope="col">Document Type</th>
-            <th scope="col">Date Requested</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
+            <th>Request ID</th>
+            <th>Client</th>
+            <th>Document Type</th>
+            <th>Date Requested</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
-        <tbody class="table-body">
-          
-        </tbody>
       </table>
     </div>
   </main>
   <script>
     $(document).ready(function(){
-      $.ajax({
-        type: "get",
-        url: "api/get_all_archived.php",
-        success: response => {
-          $(".table-body").html(response)
-        }
-      })
+      $('#example').DataTable({
+          ajax: 'api/get_all_archived.php',
+          columns: [
+            { data: 'request_id', title: 'Request ID' },
+            { data: 'client_name', title: 'Client' },
+            { data: 'document_type', title: 'Document Type' },
+            { data: 'request_date', title: 'Date Requested' },
+            { data: 'status', title: 'Status' },
+            { 
+              data: 'request_id',
+              title: 'Action',
+              render: function(data) {
+                return `
+                  <a class='btn btn-sm btn-primary' href='view.php?request_id=${data}'>View</a>
+                `;
+              }
+            }
+          ]
+      });
     })
   </script>
 </body>

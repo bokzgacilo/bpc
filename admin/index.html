@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../asset/css/main-style.css">
   <script src="../asset/sweetalert.js"></script>
+
+  
 </head>
 <body>
   
@@ -65,29 +67,35 @@
       let staffcode = $("#staffcode").val();
       let staffpassword = $("#staffpassword").val();
 
-      if(staffcode === "STAFF001" && staffpassword === "12345"){
-        Swal.fire({
-          title: "Login Successfully",
-          text: "Thank you for logging in.",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: "Go To Dashboard"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            location.href = "request.php"
+      $.ajax({
+        type: 'post',
+        url: "api/login.php",
+        data: {
+          username: staffcode,
+          password: staffpassword
+        },
+        success: response => {
+          if(response === "ok"){
+            Swal.fire({
+              title: "Login Successfully",
+              text: "Thank you for logging in.",
+              icon: "success",
+              showCancelButton: false,
+              confirmButtonText: "Go To Dashboard"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.href = "staffs.php"
+              }
+            });
+          }else {
+            Swal.fire({
+              title: "Invalid Staff Code and Password",
+              text: "Please make sure you enter correct and valid Staff Code and Password",
+              icon: "error"
+            })
           }
-        });
-      }else{
-        Swal.fire({
-          title: "Invalid Staff Code and Password",
-          text: "Please make sure you enter correct and valid Staff Code and Password",
-          icon: "error"
-        })
-      }
-    })
-
-    $(document).ready(function(){
-
+        }
+      })
     })
   </script>
 </body>
