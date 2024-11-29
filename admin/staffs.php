@@ -2,11 +2,11 @@
   session_start();
   include_once("api/connection.php");
 
-  if($_SESSION['staffrole'] == "Admin"){
-    header("location: staffs.php");
-  }elseif($_SESSION['staffrole'] == "Registrar"){
-    header("location: request.php");
-  }
+  // if($_SESSION['staffrole'] == "Admin"){
+  //   header("location: staffs.php");
+  // }elseif($_SESSION['staffrole'] == "Registrar"){
+  //   header("location: request.php");
+  // }
 ?>
 
 <!DOCTYPE html>
