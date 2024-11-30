@@ -25,14 +25,20 @@
         padding: 1rem;
       }
 
-      .submitrequest-desktop {
-        display: none;
+      #calendar {
+        padding: 0 !important;
+        height: 463px !important;
       }
-    }
+      .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+        min-height: 0.5em !important;
+      }
 
-    @media (min-width: 992px) {
-      .submitrequest-mobile {
-        display: none;
+      .fc .fc-button {
+        padding: 0.2em 0.3em !important;
+      }
+
+      .fc-toolbar-title {
+        font-size: 1em !important;
       }
     }
 
@@ -57,7 +63,6 @@
       color: #000;
     }
 
-    /* Style for displaying remaining slots */
     .fc-day-number {
       position: relative;
     }
@@ -84,30 +89,18 @@
           var cellDate = new Date(info.date);
           var formattedDate = cellDate.toISOString().split('T')[0];
           var isToday = (cellDate.toDateString() === today.toDateString()); // Check if it's today
-
-
-
-          // Fetch remaining slots for the day from the JSON object
           var remainingSlots = window.remainingSlots[formattedDate];
 
-          console.log(formattedDate + ": " + remainingSlots)
-          // var eventCountForDate = window.eventCount[formattedDate] || 0;
-
-          // If remaining slots are undefined, set default values for weekdays and weekends
           if (remainingSlots === undefined) {
             var dayOfWeek = cellDate.getDate() - 1;
-            
             remainingSlots = (dayOfWeek >= 1 && dayOfWeek <= 5) ? 5 : 0; // 5 for Mon-Fri, 0 for weekends
           }
 
-          // console.log(eventCountForDate)
-          // remainingSlots = 5 - eventCountForDate;
-
           // Display remaining slots inside the calendar day cell
-          var slotLabel = document.createElement('div');
-          slotLabel.classList.add('custom-daygrid');
-          slotLabel.textContent = `${remainingSlots} slots`; // Display slot count with a label
-          info.el.appendChild(slotLabel);
+          // var slotLabel = document.createElement('div');
+          // slotLabel.classList.add('custom-daygrid');
+          // slotLabel.textContent = `${remainingSlots} slots`; // Display slot count with a label
+          // info.el.appendChild(slotLabel);
 
           // Add specific styles for past dates, today, and future dates
           if (cellDate < today) {
@@ -124,7 +117,6 @@
 
           var eventCountForDate = window.eventCount[info.dateStr] || 0;
           var remainingCount = window.remainingSlots[info.dateStr] || 0;
-          console.log(eventCountForDate)
 
           if(eventCountForDate === 5){
             Swal.fire({
@@ -138,6 +130,7 @@
           }
 
           if (clickedDate >= today) {
+            $("input[name='request_date']").val(info.dateStr)
             // alert('You clicked: ' + info.dateStr);
           } else {
             Swal.fire({
@@ -153,48 +146,64 @@
       fetch('api/get_all_requested_counts.php')
         .then(response => response.json())
         .then(data => {
-          window.eventCount = data.eventCount; // Assign remaining slots to a global variable
-          window.remainingSlots = data.remainingSlots; // Assign remaining slots to a global variable
-          calendar.render(); // Render the calendar after loading the data
+          window.eventCount = data.eventCount;
+          window.remainingSlots = data.remainingSlots;
+          calendar.render();
         });
     })
 
   </script>
 
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">CONFIRM DETAILS</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex flex-column gap-2" id="confirmation-body">
+            
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" id="submit-request-btn">Submit Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container-fluid d-flex flex-lg-row flex-column p-0">
     <?php include("reusables/client-sidebar.php"); ?>
     
-    <section class="col-12 col-lg-10 p-4">
+    <section class="col-12 col-lg-10 p-2 p-lg-4">
       <form id="requestForm">
         <div style="display: flex; flex-direction: row; justify-content: space-between; align-items:center;">
           <h4 class="fw-bold">REQUEST FORM</h4>
-          <button class="btn btn-success submitrequest-desktop" type="submit">Submit Request</button>
+          <button class="btn btn-success" type="submit">Submit Request</button>
         </div>
         <div class="row">
-          <div class="col-7">
-            <h4 class="fw-bold mb-4">Choose Date</h4>
+          <div class="col-12 col-lg-7">
+            <h4 class="fw-bold mb-2 mb-lg-4">Choose Date</h4>
             <div id="calendar">
 
             </div>
           </div>
-          <div class="col-5">
-            <h4 class="fw-bold mb-4">Request Details</h4>
+          <div class="col-12 col-lg-5">
+            <h4 class="fw-bold mb-4 mt-4 mt-lg-0">Request Details</h4>
             <div class="form-group mb-2">
               <label class="form-label fw-semibold">Select Date From Calendar</label>
-              <input type="date" class="form-control" name="student_number" readonly required>
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label fw-semibold">Student Number</label>
-              <input type="text" class="form-control" placeholder="04-0001-2627" name="student_number" required>
+              <input type="hidden" name="request_date">
+              <input type="date" class="form-control" name="request_date" disabled required>
             </div>
             <div class="form-group mb-2">
               <label class="form-label fw-semibold">Program</label>
-              <select class="form-select" name="program_degree">
-                <option value="bsis">BSIS</option>
-                <option value="bsom">BSOM</option>
-                <option value="bsais">BSAIS</option>
-                <option value="btvted">BTVTEd</option>
-                <option value="act">ACT</option>
+              <select class="form-select" name="program">
+                <option value="BSIS">BSIS</option>
+                <option value="BSOM">BSOM</option>
+                <option value="BSAIS">BSAIS</option>
+                <option value="BTVTEd">BTVTEd</option>
+                <option value="ACT">ACT</option>
               </select>
             </div>
             <div class="form-group mb-2">
@@ -215,12 +224,20 @@
             <div class="form-group mb-2">
               <label class="form-label fw-semibold">Document Type</label>
               <select class="form-select" name="document_type">
-                <option value="tor">Transcript Of Records</option>
-                <option value="good_moral">Good Moral</option>
-                <option value="diploma">Diploma</option>
-                <option value="c_graduation">Certificate Of Graduation</option>
-                <option value="c_enrollment">Certificate Of Enrollment</option>
-                <option value="c_grades">Certificate Of Grades</option>
+                <?php
+                  include("api/connection.php");
+
+                  $document = $conn -> query("SELECT * FROM supported_documents");
+
+                  while($row = $document -> fetch_assoc()){
+                    echo "
+                      <option value='".$row['name']."'>".$row['name']."</option>
+                    ";
+                  }
+
+                  $conn -> close();
+                ?>
+               
               </select>
             </div>
             <div class="form-group mb-2">
@@ -249,11 +266,10 @@
     </section>
   </main>
   <script>
-    $("#requestForm").on("submit", function(event){
-      event.preventDefault();
+    $("#submit-request-btn").on("click", function(){
 
-      var formData = new FormData(this);
-
+      var formData = new FormData($("#requestForm")[0]);
+      
       $.ajax({
         url: 'api/post_request.php',
         type: 'post',
@@ -261,27 +277,47 @@
         contentType: false,
         processData: false,
         success : response => {
-          let json = JSON.parse(response);
+          console.log(response)
+        }
+      });
+    })
 
-          if(json.status === "success"){
-            Swal.fire({
-              title: json.message,
-              text: json.description,
-              icon: json.status,
-              showCancelButton: false,
-              confirmButtonText: "View My Request"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                location.href = "my-request.php"
-              }
-            });
-          }else {
-            Swal.fire({
-              title: json.message,
-              text: json.description,
-              icon: json.status
-            })
-          }
+    $("#requestForm").on("submit", function(event){
+      event.preventDefault();
+
+      $("#confirmationModal").modal("toggle")
+
+      var formData = new FormData(this);
+
+      $.ajax({
+        url: 'api/post_confirm_request.php',
+        type: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success : response => {
+          $("#confirmation-body").html(response)
+          // let json = JSON.parse(response);
+
+          // if(json.status === "success"){
+          //   Swal.fire({
+          //     title: json.message,
+          //     text: json.description,
+          //     icon: json.status,
+          //     showCancelButton: false,
+          //     confirmButtonText: "View My Request"
+          //   }).then((result) => {
+          //     if (result.isConfirmed) {
+          //       location.href = "my-request.php"
+          //     }
+          //   });
+          // }else {
+          //   Swal.fire({
+          //     title: json.message,
+          //     text: json.description,
+          //     icon: json.status
+          //   })
+          // }
         }
       });
     })

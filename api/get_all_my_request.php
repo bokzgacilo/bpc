@@ -2,7 +2,7 @@
   include("connection.php");
   session_start();
 
-  $clientid = $_SESSION['clientid'];
+  $clientid = $_SESSION['stuid'];
 
   $select_all = $conn -> query("SELECT * FROM requests WHERE client_id=$clientid");
 

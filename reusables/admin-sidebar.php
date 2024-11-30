@@ -115,10 +115,6 @@
         <i class='fa-solid fa-gear'></i>
         <span>CONTENT MANAGEMENT</span>
       </a>
-      <a href='data_export.php'>
-        <i class='fa-solid fa-gear'></i>
-        <span>DATA EXPORT</span>
-      </a>
       ";
     }
   ?>
@@ -129,6 +125,10 @@
       <a href='request.php'>
         <i class='fa-regular fa-file'></i>
         <span>REQUEST</span>
+      </a>
+      <a href='processing.php'>
+        <i class='fa-regular fa-file'></i>
+        <span>IN-PROCESSING</span>
       </a>
       <a href='archive.php'>
         <i class='fa-regular fa-file'></i>
@@ -148,13 +148,9 @@
   <?php
     if($_SESSION['staffrole'] === "Cashier"){
       echo "
-        <a href='processing.php'>
+        <a href='cashier.php'>
           <i class='fa-regular fa-file'></i>
-          <span>Processing</span>
-        </a>
-        <a href='transactions.php'>
-          <i class='fa-regular fa-file'></i>
-          <span>Transactions</span>
+          <span>CASHIER</span>
         </a>
       ";
       

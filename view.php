@@ -55,7 +55,15 @@
         <h3>Viewing Request: <?php echo $requestID; ?></h3>
         <h5>Client: <?php echo $row['client_name']; ?></h5>
         <h5>Status: <?php echo $row['status']; ?></h5>
-        <h5>Date Requested: <?php echo $row['request_date']; ?></h5>
+        <h5>Payment Status: <?php 
+          if($row['payment_status'] == false){
+            echo "<span class='badge bg-danger'>UNPAID</span>"; 
+          }else {
+            echo "<span class='badge bg-success'>PAID</span>"; 
+          }
+        ?></h5>
+        <h5>Price: <?php echo $row['price']; ?> PHP</h5>
+        <h5>Date Requested: <?php echo date('M d, Y', strtotime($row['request_date'])) ; ?></h5>
         <hr />
         <h3>Student Information</h3>
         <div class="row">
@@ -63,28 +71,6 @@
             <label for="exampleInputPassword1" class="form-label">Student Number</label>
             <input type="text" class="form-control" placeholder="04-0001-2627" value="<?php echo $row['student_number']; ?>" readonly>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6 col-lg-3">
-            <label for="exampleInputPassword1" class="form-label">Last Name</label>
-            <input type="text" class="form-control" placeholder="Dela Cruz" value="<?php echo $row['lastname']; ?>" readonly>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <label for="exampleInputPassword1" class="form-label">First Name</label>
-            <input type="text" class="form-control" placeholder="Juan Mark" value="<?php echo $row['firstname']; ?>" readonly>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <label for="exampleInputPassword1" class="form-label">Last Name</label>
-            <input type="text" class="form-control" placeholder="Marcos" value="<?php echo $row['middlename']; ?>" readonly>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <label for="exampleInputPassword1" class="form-label">Extension Name</label>
-            <select class="form-select" aria-label="Default select example">
-              <option selected><?php echo $row['extension_name']; ?></option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-12 col-md-6 col-lg-3">
             <label for="exampleInputPassword1" class="form-label">Program</label>
             <select class="form-select" aria-label="Default select example">
@@ -114,10 +100,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-12 col-md-6 col-lg-3">
-            <label for="exampleInputPassword1" class="form-label">Block/House/Building Number</label>
-            <input type="text" class="form-control" placeholder="Building 37" value="<?php echo $row['house_number']; ?>" readonly>
-          </div>
           <div class="col-12 col-md-6 col-lg-3">
             <label for="exampleInputPassword1" class="form-label">Street Name</label>
             <input type="text" class="form-control" placeholder="Nakpil St" value="<?php echo $row['street_name']; ?>" readonly>

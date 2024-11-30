@@ -3,42 +3,51 @@
   include("emailer.php");
 
   session_start();
-   // Retrieve and sanitize input data from the form
-  $student_number = mysqli_real_escape_string($conn, $_POST['student_number']);
-  $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
-  $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
-  $middlename = mysqli_real_escape_string($conn, $_POST['middlename']);
-  $extension_name = mysqli_real_escape_string($conn, $_POST['extension_name']);
-  $program_degree = mysqli_real_escape_string($conn, $_POST['program_degree']);
-  $year_graduated = mysqli_real_escape_string($conn, $_POST['year_graduated']);
-  $client_email = mysqli_real_escape_string($conn, $_POST['client_email']);
-  $client_contact_number1 = mysqli_real_escape_string($conn, $_POST['client_contact_number1']);
-  $client_contact_number2 = mysqli_real_escape_string($conn, $_POST['client_contact_number2']);
-  $house_number = mysqli_real_escape_string($conn, $_POST['house_number']);
-  $street_name = mysqli_real_escape_string($conn, $_POST['street_name']);
-  $barangay = mysqli_real_escape_string($conn, $_POST['barangay']);
-  $municipality = mysqli_real_escape_string($conn, $_POST['municipality']);
-  $document_type = mysqli_real_escape_string($conn, $_POST['document_type']);
-  $academic_year = mysqli_real_escape_string($conn, $_POST['academic_year']);
-  $purpose = mysqli_real_escape_string($conn, $_POST['purpose']);
 
-  $request_id = uniqid('REQ-', true);
-  $clientid = $_SESSION['clientid'];
+  $stuid = $_SESSION['stuid'];
 
-  $sql = "INSERT INTO requests (
+  $user = $conn -> query("SELECT * FROM users WHERE stuid=$stuid LIMIT 1");
+  $user = $user -> fetch_assoc();
+
+  
+
+  $uniqueId = uniqid('R-', true);
+  $shortenedId = substr($uniqueId, 0, 8);
+  $finalId = strtoupper($shortenedId);
+
+  $client_name = $user['stuname'];
+  $client_id = $stuid;
+  $request_id = $finalId;
+  $student_number = $stuid;
+  $program = $_POST['program'];
+  $year_graduated = $_POST['year_graduated'];
+  $client_email = $user['stuemail'];
+  $client_contact_number1 = $user['contact_number'];
+  $client_contact_number2 = $user['contact_number'];
+  $street = $user['street'];
+  $barangay = $user['barangay'];
+  $city = $user['city'];
+  $province = $user['province'];
+  $document_type = $_POST['document_type'];
+  $academic_year = $_POST['academic_year'];
+  $purpose = $_POST['purpose'];
+  $request_date = $_POST['request_date'];
+
+  $docu = $conn -> query("SELECT price FROM supported_documents WHERE name='$document_type' LIMIT 1");
+  $docu = $docu -> fetch_assoc();
+
+  $price = $docu['price'];
+
+  $insert = "INSERT INTO requests (
     client_name,
     client_id,
     request_id,
     student_number, 
-    lastname, firstname, 
-    middlename, 
-    extension_name, 
     program_degree, 
     year_graduated, 
     client_email, 
     client_contact_number1, 
     client_contact_number2, 
-    house_number, 
     street_name, 
     barangay, 
     city, 
@@ -46,36 +55,33 @@
     academic_year, 
     purpose, 
     request_date, 
+    price,
     date_created,
     status
     )
   VALUES (
-    '$firstname $middlename. $lastname', 
-    '$clientid',
+    '$client_name', 
+    '$client_id',
     '$request_id',
     '$student_number', 
-    '$lastname', 
-    '$firstname', 
-    '$middlename', 
-    '$extension_name', 
-    '$program_degree', 
+    '$program', 
     '$year_graduated', 
     '$client_email', 
     '$client_contact_number1', 
     '$client_contact_number2', 
-    '$house_number', 
-    '$street_name', 
+    '$street', 
     '$barangay', 
-    '$municipality', 
+    '$city', 
     '$document_type', 
     '$academic_year', 
     '$purpose', 
-    CURDATE(), 
+    '$request_date', 
+    $price,
     NOW(),
     'Pending'
   )";
 
-  if($conn -> query($sql)){
+  if($conn -> query($insert)){
     if(sendEmail($client_email, $document_type)){
       echo json_encode(['status' => 'success', 'message' => 'Request Submitted', 'description' => 'Request submitted, please wait atleast 3-5 business days to complete your request.']);
     }

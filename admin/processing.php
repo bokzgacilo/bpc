@@ -1,7 +1,8 @@
 <?php
   session_start();
+  include_once("api/connection.php");
 
-  if($_SESSION['staffrole'] != "Cashier"){
+  if($_SESSION['staffrole'] != "Registrar"){
     header("location: dashboard.php");
   }
 ?>
@@ -11,7 +12,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>In-Processing Requests - BPC E-Registrar</title>
+  <title>In-Processing Requests - <?php echo $CONTENT['system_name']; ?></title>
   <?php include("static-loader.php"); ?>
 </head>
 <body>
@@ -19,10 +20,7 @@
     <?php include("../reusables/admin-sidebar.php"); ?>
     
     <div class="col-10 p-4">
-      <div class="panel-header">
-        <h2>List of In-Processing Requests</h2>
-      </div>
-      <hr class="mb-4" />
+      <h4 class="mb-4 fw-bold">IN-PROCESSING</h4>
       <table id="example" class="display table" style="width:100%">
         <thead>
           <tr>
