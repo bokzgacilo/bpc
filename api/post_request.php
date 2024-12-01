@@ -6,7 +6,7 @@
 
   $stuid = $_SESSION['stuid'];
 
-  $user = $conn -> query("SELECT * FROM users WHERE stuid=$stuid LIMIT 1");
+  $user = $conn -> query("SELECT * FROM users WHERE stuid='$stuid' LIMIT 1");
   $user = $user -> fetch_assoc();
 
   

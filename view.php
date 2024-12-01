@@ -52,9 +52,14 @@
     <?php include("reusables/client-sidebar.php"); ?>
     <section class="col-12 col-lg-10">
       <div>
-        <h3>Viewing Request: <?php echo $requestID; ?></h3>
+        <h5>Document: <?php echo $row['document_type']; ?></h5>
         <h5>Client: <?php echo $row['client_name']; ?></h5>
         <h5>Status: <?php echo $row['status']; ?></h5>
+        <?php 
+          if($row['status'] === "Rejected"){
+            echo "<h5>Reason: ".$row['reject_reason']."</h5>";
+          }
+        ?>
         <h5>Payment Status: <?php 
           if($row['payment_status'] == false){
             echo "<span class='badge bg-danger'>UNPAID</span>"; 

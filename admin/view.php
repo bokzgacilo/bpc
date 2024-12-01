@@ -47,10 +47,16 @@
     <?php include("../reusables/admin-sidebar.php"); ?>
     <section class="col-10">
       <div>
-        <h3>Viewing Request: <?php echo $requestID; ?></h3>
-        <h6>Client: <?php echo $row['client_name']; ?></h6>
-        <h6>Status: <?php echo $row['status']; ?></h6>
-        <h6>Date Requested: <?php echo $row['request_date']; ?></h6>
+        <h5>Viewing Request: <?php echo $requestID; ?></h5>
+        <h5>Document: <?php echo $row['document_type']; ?></h5>
+        <h5>Client: <?php echo $row['client_name']; ?></h5>
+        <h5>Status: <?php echo $row['status']; ?></h5>
+        <?php 
+          if($row['status'] === "Rejected"){
+            echo "<h5>Reason: ".$row['reject_reason']."</h5>";
+          }
+        ?>
+        <h5>Date Requested: <?php echo $row['request_date']; ?></h5>
         <hr />
         <h3>Student Information</h3>
         <div class="row">
@@ -58,28 +64,6 @@
             <label for="exampleInputPassword1" class="form-label">Student Number</label>
             <input type="text" class="form-control" placeholder="04-0001-2627" value="<?php echo $row['student_number']; ?>" readonly>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-3">
-            <label for="exampleInputPassword1" class="form-label">Last Name</label>
-            <input type="text" class="form-control" placeholder="Dela Cruz" value="<?php echo $row['lastname']; ?>" readonly>
-          </div>
-          <div class="col-3">
-            <label for="exampleInputPassword1" class="form-label">First Name</label>
-            <input type="text" class="form-control" placeholder="Juan Mark" value="<?php echo $row['firstname']; ?>" readonly>
-          </div>
-          <div class="col-3">
-            <label for="exampleInputPassword1" class="form-label">Last Name</label>
-            <input type="text" class="form-control" placeholder="Marcos" value="<?php echo $row['middlename']; ?>" readonly>
-          </div>
-          <div class="col-3">
-            <label for="exampleInputPassword1" class="form-label">Extension Name</label>
-            <select class="form-select" aria-label="Default select example">
-              <option selected><?php echo $row['extension_name']; ?></option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-3">
             <label for="exampleInputPassword1" class="form-label">Program</label>
             <select class="form-select" aria-label="Default select example">
@@ -93,7 +77,7 @@
             </select>
           </div>
         </div>
-        <h3 class="mt-4">Address & Contact Information</h3>
+        <!-- <h3 class="mt-4">Address & Contact Information</h3>
         <div class="row">
           <div class="col-3">
             <label for="exampleInputPassword1" class="form-label">Email Address</label>
@@ -125,7 +109,7 @@
             <label for="exampleInputPassword1" class="form-label">Municipality/City</label>
             <input type="text" class="form-control" placeholder="Pampanga" value="<?php echo $row['city']; ?>" readonly>
           </div>
-        </div>
+        </div> -->
         <h3 class="mt-4">Request Details</h3>
         <div class="row">
           <div class="col-3">

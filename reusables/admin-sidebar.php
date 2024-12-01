@@ -103,6 +103,10 @@
   <?php
     if($_SESSION['staffrole'] === "Admin"){
       echo "
+      <a href='request.php'>
+        <i class='fa-regular fa-file'></i>
+        <span>REQUEST</span>
+      </a>
       <a href='staffs.php'>
         <i class='fa-regular fa-user'></i>
         <span>STAFF</span>

@@ -165,6 +165,9 @@
           <div class="d-flex flex-column gap-2" id="confirmation-body">
             
           </div>
+          <div class="d-flex flex-column gap-2" id="confirmation-loaded">
+            asdasdsad
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" id="submit-request-btn">Submit Request</button>
@@ -269,6 +272,12 @@
     $("#submit-request-btn").on("click", function(){
 
       var formData = new FormData($("#requestForm")[0]);
+
+      $("#confirmation-body").fadeOut("slow", function(){
+        $("#confirmation-body").css({
+          "display" : "none"
+        })
+      })
       
       $.ajax({
         url: 'api/post_request.php',
@@ -277,7 +286,27 @@
         contentType: false,
         processData: false,
         success : response => {
-          console.log(response)
+          let json = JSON.parse(response);
+
+          if(json.status === "success"){
+            Swal.fire({
+              title: json.message,
+              text: json.description,
+              icon: json.status,
+              showCancelButton: false,
+              confirmButtonText: "View My Request"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.href = "my-request.php"
+              }
+            });
+          }else {
+            Swal.fire({
+              title: json.message,
+              text: json.description,
+              icon: json.status
+            })
+          }
         }
       });
     })
@@ -297,27 +326,7 @@
         processData: false,
         success : response => {
           $("#confirmation-body").html(response)
-          // let json = JSON.parse(response);
-
-          // if(json.status === "success"){
-          //   Swal.fire({
-          //     title: json.message,
-          //     text: json.description,
-          //     icon: json.status,
-          //     showCancelButton: false,
-          //     confirmButtonText: "View My Request"
-          //   }).then((result) => {
-          //     if (result.isConfirmed) {
-          //       location.href = "my-request.php"
-          //     }
-          //   });
-          // }else {
-          //   Swal.fire({
-          //     title: json.message,
-          //     text: json.description,
-          //     icon: json.status
-          //   })
-          // }
+          
         }
       });
     })

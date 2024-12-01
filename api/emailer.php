@@ -34,7 +34,6 @@
 
       // Send the email
       $mail -> send();
-
       return true;
     } catch (Exception $e) {
       exit();

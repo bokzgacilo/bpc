@@ -3,8 +3,9 @@
   include("send-email-reject.php");
 
   $requestid = $_POST['requestid'];
+  $reason = $_POST['reason'];
 
-  if($conn -> query("UPDATE requests SET status='Rejected' WHERE request_id='$requestid'")){
+  if($conn -> query("UPDATE requests SET status='Rejected', reject_reason='$reason' WHERE request_id='$requestid'")){
     $select = $conn -> query("SELECT client_email, document_type FROM requests WHERE request_id='$requestid'");
     $row = $select -> fetch_assoc();
     
