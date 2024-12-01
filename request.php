@@ -165,9 +165,6 @@
           <div class="d-flex flex-column gap-2" id="confirmation-body">
             
           </div>
-          <div class="d-flex flex-column gap-2" id="confirmation-loaded">
-            asdasdsad
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" id="submit-request-btn">Submit Request</button>
@@ -240,7 +237,7 @@
 
                   $conn -> close();
                 ?>
-               
+
               </select>
             </div>
             <div class="form-group mb-2">
@@ -272,13 +269,6 @@
     $("#submit-request-btn").on("click", function(){
 
       var formData = new FormData($("#requestForm")[0]);
-
-      $("#confirmation-body").fadeOut("slow", function(){
-        $("#confirmation-body").css({
-          "display" : "none"
-        })
-      })
-      
       $.ajax({
         url: 'api/post_request.php',
         type: 'post',
