@@ -17,7 +17,7 @@
         <label for='staffrole' class='form-label'>Position</label>
         <select class='form-select' name='staffrole' id='staffrole' required>
           <option value='Admin' ".(($row['role'] == 'Admin') ? 'selected' : '').">Admin</option>
-          <option value='Registrar' ".(($row['role'] == 'Registrar') ? 'selected' : '').">Registrar</option>
+          <option value='Staff' ".(($row['role'] == 'Staff') ? 'selected' : '').">Staff</option>
           <option value='Cashier' ".(($row['role'] == 'Cashier') ? 'selected' : '').">Cashier</option>
         </select>
       </div>

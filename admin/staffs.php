@@ -1,12 +1,6 @@
 <?php
   session_start();
   include_once("api/connection.php");
-
-  // if($_SESSION['staffrole'] == "Admin"){
-  //   header("location: staffs.php");
-  // }elseif($_SESSION['staffrole'] == "Registrar"){
-  //   header("location: request.php");
-  // }
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +30,7 @@
                 <select class="form-select" name="addstaffrole" id="addstaffrole" aria-label="Default select example" required>
                   <option value="">Select Role</option>
                   <option value="Admin">Admin</option>
-                  <option value="Registrar">Registrar</option>
+                  <option value="Staff">Staff</option>
                   <option value="Cashier">Cashier</option>
                 </select>
               </div>
@@ -278,7 +272,7 @@
 
     const positionOptions = {
       Admin: ["Admin I", "Admin II"],
-      Registrar: ["Registrar I", "Registrar II", "Registrar III", "Head Registrar I", "Head Registrar II"],
+      Staff: ["Staff I", "Staff II", "Staff III", "Head Staff I", "Head Staff II"],
       Cashier: ["Cashier I", "Cashier II", "Senior Cashier I"]
     };
 

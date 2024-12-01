@@ -1,10 +1,6 @@
 <?php
   session_start();
   include_once("api/connection.php");
-
-  if($_SESSION['staffrole'] != "Registrar"){
-    header("location: dashboard.php");
-  }
 ?>
 
 <!DOCTYPE html>

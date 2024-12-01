@@ -120,7 +120,7 @@
   ?>
 
   <?php
-    if($_SESSION['staffrole'] === "Registrar"){
+    if($_SESSION['staffrole'] === "Staff"){
       echo "
       <a href='request.php'>
         <i class='fa-regular fa-file'></i>

@@ -5,7 +5,7 @@
     case "Admin":
       header("location: staffs.php");
       break;
-    case "Registrar":
+    case "Staff":
       header("location: request.php");
       break;
     case "Cashier":
