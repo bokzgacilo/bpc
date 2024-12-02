@@ -18,7 +18,7 @@
     barangay='$barangay',
     city='$city',
     province='$province'
-    WHERE stuid=$stuid
+    WHERE stuid='$stuid'
   ");
 
   if($update){
