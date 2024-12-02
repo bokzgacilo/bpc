@@ -278,6 +278,8 @@
         processData: false,
         success : response => {
           console.log(response)
+          alert("Request Submitted")
+          location.href="my-request.php"
         }
       });
     })

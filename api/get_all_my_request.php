@@ -4,7 +4,7 @@
 
   $clientid = $_SESSION['stuid'];
 
-  $select_all = $conn -> query("SELECT * FROM requests WHERE client_id=$clientid");
+  $select_all = $conn -> query("SELECT * FROM requests WHERE client_id='$clientid'");
 
   if($select_all -> num_rows > 0){
     while($row = $select_all -> fetch_assoc()){

@@ -12,6 +12,26 @@
   <?php include("static-loader.php"); ?>
 </head>
 <body>
+  <div class="modal fade" id="reasonmodal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="form-group d-flex flex-column 4">
+            <h5 class="fw-semibold mb-2">Select Reason</h5>
+            <select class="form-control">
+              <option>Option 1</option>
+              <option>Option 3</option>
+              <option>Option 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger">Confirm Rejection</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container-fluid d-flex flex-row p-0">
     <?php include("../reusables/admin-sidebar.php"); ?>
     
@@ -41,7 +61,6 @@
         showCancelButton: false,
         confirmButtonText: "Approve Request"
       }).then((result) => {
-        toggleLoadingModal()
         if (result.isConfirmed) {
           $.ajax({
             type: 'post',
@@ -51,7 +70,6 @@
             },
             success: response => {
               let json = JSON.parse(response)
-              toggleLoadingModal()
 
               Swal.fire({
                 title: json.message,
@@ -79,7 +97,6 @@
         showCancelButton: false,
         confirmButtonText: "Reject Request"
       }).then((result) => {
-        toggleLoadingModal()
         if (result.isConfirmed) {
           $.ajax({
             type: 'post',
@@ -89,8 +106,6 @@
             },
             success: response => {
               let json = JSON.parse(response)
-              toggleLoadingModal()
-
               Swal.fire({
                 title: json.message,
                 text: json.description,
@@ -124,7 +139,7 @@
               return `
                 <a class='btn btn-sm btn-primary' href='view.php?request_id=${data}'>View</a>
                 <button class='btn btn-sm btn-success approveButton' data-target='${data}'>Approve</button>
-                <button class='btn btn-sm btn-danger rejectButton' data-target='${data}'>Reject</button>
+                <button data-bs-toggle="modal" data-bs-target="#reasonmodal" class='btn btn-sm btn-danger rejectButton' data-target='${data}'>Reject</button>
               `;
             }
           }
